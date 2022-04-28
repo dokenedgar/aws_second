@@ -1,3 +1,5 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:aws_second/amplifyconfiguration.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +33,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final AmplifyAuthCognito _authCognitoPlugin = AmplifyAuthCognito();
+
   @override
   void initState() {
     initializeApp();
@@ -43,9 +47,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> configureAmplify() async {
     await Amplify.addPlugins(
-      [],
+      [
+        _authCognitoPlugin,
+      ],
     );
-    await Amplify.configure(amplifyconfig);
+    try {
+      await Amplify.configure(amplifyconfig);
+    } on AmplifyAlreadyConfiguredException {
+      print('configured already');
+    } catch (e) {
+      print('generic error');
+    }
   }
 
   @override
