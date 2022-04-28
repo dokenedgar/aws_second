@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
     } on AmplifyAlreadyConfiguredException {
       print('configured already');
     } catch (e) {
-      print('generic error');
+      print('generic error $e');
     }
   }
 
